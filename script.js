@@ -9,8 +9,36 @@ const quotes = [
 
 const quoteElement = document.getElementById('quote');
 const newQuoteButton = document.getElementById('new-quote-btn');
+const themeToggleButton = document.getElementById('theme-toggle-btn');
+const darkThemeClass = 'dark-theme';
+
+function updateThemeButtonText() {
+  const usingDarkTheme = document.body.classList.contains(darkThemeClass);
+  themeToggleButton.textContent = usingDarkTheme
+    ? 'Switch to Light Theme'
+    : 'Switch to Dark Theme';
+}
+
+function setTheme(theme) {
+  if (theme === 'dark') {
+    document.body.classList.add(darkThemeClass);
+  } else {
+    document.body.classList.remove(darkThemeClass);
+  }
+
+  localStorage.setItem('theme', theme);
+  updateThemeButtonText();
+}
 
 newQuoteButton.addEventListener('click', () => {
   const randomIndex = Math.floor(Math.random() * quotes.length);
   quoteElement.textContent = quotes[randomIndex];
 });
+
+themeToggleButton.addEventListener('click', () => {
+  const usingDarkTheme = document.body.classList.contains(darkThemeClass);
+  setTheme(usingDarkTheme ? 'light' : 'dark');
+});
+
+const savedTheme = localStorage.getItem('theme');
+setTheme(savedTheme === 'dark' ? 'dark' : 'light');
