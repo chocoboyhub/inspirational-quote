@@ -3,6 +3,389 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Perspective — Inspirational Quotes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* Theme tokens: warm premium palette (rose / orange / plum) */
+    :root {
+      color-scheme: light;
+      --bg: #f8f1ef;
+      --bg-elevated: rgba(255, 250, 248, 0.8);
+      --bg-accent-1: #f8d9cd;
+      --bg-accent-2: #e8c8d7;
+      --text-primary: #2b1d22;
+      --text-secondary: #6f5560;
+      --card-border: rgba(141, 84, 108, 0.2);
+      --shadow-soft: 0 18px 50px rgba(132, 74, 95, 0.15);
+      --button-bg: linear-gradient(135deg, #cc6f68 0%, #b65783 100%);
+      --button-text: #fff7f4;
+      --button-shadow: 0 10px 24px rgba(182, 87, 131, 0.32);
+      --button-ghost-bg: rgba(182, 87, 131, 0.1);
+      --button-ghost-text: #7c2f58;
+      --pill-bg: rgba(124, 47, 88, 0.12);
+      --pill-text: #6c244d;
+      --focus-ring: 0 0 0 3px rgba(182, 87, 131, 0.35);
+      --transition: 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    body.dark {
+      color-scheme: dark;
+      --bg: #1f1419;
+      --bg-elevated: rgba(46, 28, 36, 0.66);
+      --bg-accent-1: #60334a;
+      --bg-accent-2: #4a2a3f;
+      --text-primary: #f7e9ec;
+      --text-secondary: #c8aab4;
+      --card-border: rgba(255, 219, 231, 0.14);
+      --shadow-soft: 0 20px 54px rgba(10, 4, 7, 0.45);
+      --button-bg: linear-gradient(135deg, #e58d6d 0%, #c7739e 100%);
+      --button-text: #2c1822;
+      --button-shadow: 0 12px 28px rgba(203, 115, 158, 0.34);
+      --button-ghost-bg: rgba(245, 200, 219, 0.14);
+      --button-ghost-text: #f3dbe4;
+      --pill-bg: rgba(245, 200, 219, 0.14);
+      --pill-text: #f3dbe4;
+      --focus-ring: 0 0 0 3px rgba(229, 141, 109, 0.38);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-primary);
+      background:
+        radial-gradient(80vw 60vh at 10% 12%, var(--bg-accent-1), transparent 62%),
+        radial-gradient(68vw 52vh at 85% 88%, var(--bg-accent-2), transparent 66%),
+        var(--bg);
+      transition: background var(--transition), color var(--transition);
+      display: grid;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+    }
+
+    .quote-shell {
+      width: min(900px, 100%);
+      border-radius: 28px;
+      border: 1px solid var(--card-border);
+      background: var(--bg-elevated);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-soft);
+      padding: clamp(1.3rem, 4vw, 3rem);
+      transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: clamp(1rem, 2.8vw, 2rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: var(--pill-bg);
+      color: var(--pill-text);
+      letter-spacing: 0.03em;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .theme-toggle {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.55rem 0.95rem;
+      background: var(--button-ghost-bg);
+      color: var(--button-ghost-text);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition), color var(--transition);
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle:active {
+      transform: translateY(0);
+    }
+
+    .theme-toggle:focus-visible,
+    .action-btn:focus-visible,
+    .ghost-btn:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(1.6rem, 3.3vw, 2.45rem);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+    }
+
+    .subtext {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: clamp(0.98rem, 1.8vw, 1.08rem);
+      line-height: 1.6;
+    }
+
+    .quote-wrap {
+      margin: clamp(1.3rem, 3vw, 2rem) 0 clamp(1.2rem, 2.6vw, 1.9rem);
+      padding: clamp(1rem, 2.8vw, 1.6rem);
+      border-radius: 18px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.14);
+      transition: border-color var(--transition), background var(--transition), transform var(--transition), opacity var(--transition);
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    body.dark .quote-wrap {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .quote-wrap.animating {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    blockquote {
+      margin: 0;
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(1.15rem, 2.45vw, 1.6rem);
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+    }
+
+    .quote-author {
+      margin-top: 0.85rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .action-btn,
+    .ghost-btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.96rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition), background var(--transition), color var(--transition);
+    }
+
+    .action-btn {
+      background: var(--button-bg);
+      color: var(--button-text);
+      box-shadow: var(--button-shadow);
+    }
+
+    .action-btn:hover {
+      transform: translateY(-1px);
+      filter: saturate(1.06);
+    }
+
+    .action-btn:active {
+      transform: translateY(0);
+    }
+
+    .ghost-btn {
+      background: var(--button-ghost-bg);
+      color: var(--button-ghost-text);
+    }
+
+    .ghost-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .copy-feedback {
+      display: inline-block;
+      min-width: 88px;
+      text-align: center;
+    }
+
+    .copy-feedback.pulse {
+      animation: pulse 320ms ease;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+
+    @media (max-width: 680px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .theme-toggle {
+        align-self: flex-end;
+      }
+
+      .actions {
+        width: 100%;
+      }
+
+      .action-btn,
+      .ghost-btn {
+        flex: 1;
+        min-width: 138px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="quote-shell" aria-live="polite">
+    <div class="topbar">
+      <span class="eyebrow">Daily Perspective</span>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle color theme">Dark mode</button>
+    </div>
+
+    <h1>Words that reframe your day.</h1>
+    <p class="subtext">A refined collection of short inspirations for clarity, focus, and forward motion.</p>
+
+    <section id="quoteWrap" class="quote-wrap">
+      <blockquote id="quoteText">Loading quote…</blockquote>
+      <p id="quoteAuthor" class="quote-author"></p>
+    </section>
+
+    <div class="actions">
+      <button id="newQuoteBtn" class="action-btn" type="button">Show another quote</button>
+      <button id="copyQuoteBtn" class="ghost-btn" type="button">
+        <span id="copyFeedback" class="copy-feedback">Copy quote</span>
+      </button>
+    </div>
+  </main>
+
+  <script>
+    // Curated quotes for self-improvement users.
+    const QUOTES = [
+      { text: 'You do not rise to the level of your goals. You fall to the level of your systems.', author: 'James Clear' },
+      { text: 'The quality of your life is determined by the quality of your questions.', author: 'Tony Robbins' },
+      { text: 'Discipline is choosing between what you want now and what you want most.', author: 'Abraham Lincoln (attributed)' },
+      { text: 'Clarity comes from engagement, not thought.', author: 'Marie Forleo' },
+      { text: 'Small hinges swing big doors.', author: 'W. Clement Stone' },
+      { text: 'Where focus goes, energy flows.', author: 'Tony Robbins' },
+      { text: 'The obstacle is the way.', author: 'Marcus Aurelius' },
+      { text: 'Action expresses priorities.', author: 'Mahatma Gandhi' }
+    ];
+
+    const STORAGE_THEME_KEY = 'daily-perspective-theme';
+    const quoteWrap = document.getElementById('quoteWrap');
+    const quoteText = document.getElementById('quoteText');
+    const quoteAuthor = document.getElementById('quoteAuthor');
+    const newQuoteBtn = document.getElementById('newQuoteBtn');
+    const copyQuoteBtn = document.getElementById('copyQuoteBtn');
+    const copyFeedback = document.getElementById('copyFeedback');
+    const themeToggle = document.getElementById('themeToggle');
+
+    let previousIndex = -1;
+    let feedbackTimeoutId;
+
+    function getNextIndex() {
+      if (QUOTES.length === 1) return 0;
+      let index = Math.floor(Math.random() * QUOTES.length);
+      while (index === previousIndex) {
+        index = Math.floor(Math.random() * QUOTES.length);
+      }
+      return index;
+    }
+
+    function renderQuote(index) {
+      const quote = QUOTES[index];
+      quoteText.textContent = `“${quote.text}”`;
+      quoteAuthor.textContent = `— ${quote.author}`;
+      previousIndex = index;
+    }
+
+    function animateToNewQuote() {
+      quoteWrap.classList.add('animating');
+      window.setTimeout(() => {
+        renderQuote(getNextIndex());
+        quoteWrap.classList.remove('animating');
+      }, 190);
+    }
+
+    async function copyCurrentQuote() {
+      const content = `${quoteText.textContent} ${quoteAuthor.textContent}`.trim();
+
+      try {
+        await navigator.clipboard.writeText(content);
+        copyFeedback.textContent = 'Copied!';
+        copyFeedback.classList.remove('pulse');
+        void copyFeedback.offsetWidth;
+        copyFeedback.classList.add('pulse');
+
+        window.clearTimeout(feedbackTimeoutId);
+        feedbackTimeoutId = window.setTimeout(() => {
+          copyFeedback.textContent = 'Copy quote';
+        }, 1200);
+      } catch {
+        copyFeedback.textContent = 'Copy blocked';
+        window.clearTimeout(feedbackTimeoutId);
+        feedbackTimeoutId = window.setTimeout(() => {
+          copyFeedback.textContent = 'Copy quote';
+        }, 1500);
+      }
+    }
+
+    function applyTheme(theme) {
+      const isDark = theme === 'dark';
+      document.body.classList.toggle('dark', isDark);
+      themeToggle.textContent = isDark ? 'Light mode' : 'Dark mode';
+      localStorage.setItem(STORAGE_THEME_KEY, isDark ? 'dark' : 'light');
+    }
+
+    function initializeTheme() {
+      const stored = localStorage.getItem(STORAGE_THEME_KEY);
+      if (stored === 'dark' || stored === 'light') {
+        applyTheme(stored);
+        return;
+      }
+
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(systemPrefersDark ? 'dark' : 'light');
+    }
+
+    newQuoteBtn.addEventListener('click', animateToNewQuote);
+    copyQuoteBtn.addEventListener('click', copyCurrentQuote);
+    themeToggle.addEventListener('click', () => {
+      const nextTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
+      applyTheme(nextTheme);
+    });
+
+    // Auto-show one quote on first paint.
+    initializeTheme();
+    renderQuote(getNextIndex());
+  </script>
   <title>Inspirational Quotes</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
